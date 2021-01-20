@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>Searotes</title>
+
+    <style>
+        body {
+            font-size: 1.2rem;
+        }
+        .search {
+            background-color: #FFFF00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Searotes</span>
+
+            <form class="d-flex flex-fill">
+                <input class="form-control form-control-lg me-2" type="search" name="search" value="{{search}}" aria-label="Search">
+                <button class="btn btn-light" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                
+                {% if results %}
+                    {% for result in results %}
+                        <div class="card mt-2 mb-2">
+                            <div class="card-body">
+                                <h6 class="card-title"><a href="{{result.fullpath}}" target="_blank">{{result.file}}</a></h6>
+                                {{result.data|safe}}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="mt-2 mb-2">
+                        No hay resultados.
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
