@@ -5,7 +5,7 @@ cryptography==3.3.2
 docx2txt==0.8
 Flask==1.1.2
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pdfminer.six==20201018
 pycparser==2.20
