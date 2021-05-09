@@ -11,10 +11,11 @@ class Documents:
         self.load_data();
 
     def load_data(self):
-        documents = [os.path.join(dp, f) for dp, dn, filenames in os.walk(self.path) for f in filenames if os.path.splitext(f)[1] == '.pdf' or os.path.splitext(f)[1] == ".docx"];
+        if os.path.exists(self.path):
+            documents = [os.path.join(dp, f) for dp, dn, filenames in os.walk(self.path) for f in filenames if os.path.splitext(f)[1] == '.pdf' or os.path.splitext(f)[1] == ".docx"];
 
-        for document in documents:
-            self.documents.append(Document(document));
+            for document in documents:
+                self.documents.append(Document(document));
     
     def search(self, text):
         results = [];

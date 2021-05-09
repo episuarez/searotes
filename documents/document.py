@@ -21,7 +21,9 @@ class Document:
     def search(self, search_text, lenght=100):
         normalize_text = self.get_text_normalize(self.text);
 
-        positions = [text.start() for text in re.finditer(search_text, normalize_text)];
+        positions = [];
+        for word in search_text:
+            positions.extend([text.start() for text in re.finditer(search_text, normalize_text)]);
         
         results = [];
 
