@@ -10,8 +10,6 @@ MarkupSafe==1.1.1
 pdfminer.six==20201018
 pycparser==2.20
 PyPDF2==1.26.0
-pythonnet==2.5.2
-pywebview==3.4
 six==1.15.0
 sortedcontainers==2.3.0
 Werkzeug==1.0.1

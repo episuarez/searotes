@@ -1,3 +1,4 @@
+from os import read
 import PyPDF2
 
 class Pdf:
@@ -5,6 +6,14 @@ class Pdf:
         self.fullpath = fullpath;
 
     def get_text(self):
-        reader = PyPDF2.PdfFileReader(self.fullpath);
+        file = open(self.fullpath, "rb");
+        reader = PyPDF2.PdfFileReader(file);
         pages = reader.getNumPages();
-        return reader.getPage(1-pages).extractText();
+
+        text = "";
+        for page in range(1, pages):
+            text += reader.getPage(page).extractText();
+
+        file.close();
+
+        return text;

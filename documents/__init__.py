@@ -20,9 +20,11 @@ class Documents:
     def search(self, text):
         results = [];
         for document in self.documents:
-            data = document.search(text, 500);
+            data = document.search(text, 75);
 
             for result in data:
-                results.append({"fullpath": document.fullpath, "file": document.name + document.extension, "data": result });
+                results.append({"fullpath": document.fullpath, "file": document.name + document.extension, "data": result, "cantidad": result.count(text) });
+
+        results.sort(key=lambda result: result["cantidad"], reverse=True);
 
         return results;
