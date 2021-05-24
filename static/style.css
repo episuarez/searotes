@@ -1,0 +1,28 @@
+html, body {
+    font-family: "Scope One", serif;
+}
+h2 {
+    font-weight: bold;
+}
+h3 {
+    font-size: 1.5rem;
+    font-style: italic;
+}
+.links:hover, .links:focus {
+    color: rgba(0,0,0,0.85);
+}
+.links {
+    color: rgba(0,0,0,0.65);
+    text-decoration: none;
+    font-weight: bold;
+}
+.search {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+.image_wikipedia {
+    height: 150px !important;
+}
+.card {
+    background-color: #EFEFEF;
+}
