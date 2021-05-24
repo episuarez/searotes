@@ -22,4 +22,4 @@ Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo cami
 
 ## Captura de pantalla
 
-<img src="https://raw.githubusercontent.com/OwariStudios/Searotes/main/screenshot.png?raw=true" alt="Hattusa"/>
+<img src="https://github.com/OwariStudios/Searotes/blob/e40380ead0e10e3ebeecdf5c70def413f8a35c2e/screenshot.jpg?raw=true" alt="Searotes"/>
