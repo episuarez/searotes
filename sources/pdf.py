@@ -7,7 +7,7 @@ class Pdf:
 
     def get_text(self):
         file = open(self.fullpath, "rb");
-        reader = PyPDF2.PdfFileReader(file);
+        reader = PyPDF2.PdfFileReader(file, strict=False);
         pages = reader.getNumPages();
 
         text = "";

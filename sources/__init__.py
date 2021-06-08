@@ -1,9 +1,10 @@
 import os
+import re
 import time
-from multiprocessing import Pool
 
 import wikipedia
 from requests_html import HTMLSession
+from textblob import TextBlob
 
 from .document import Document
 
@@ -34,7 +35,7 @@ class Sources:
     def load_documents(self, text):
         documents_search = [];
         for document in self.documents:
-            data = document.search(text, 75);
+            data = document.search(text);
 
             for result in data:
                 documents_search.append({
@@ -57,27 +58,44 @@ class Sources:
             titulo = result.html.xpath(f"//*[@id='rso']/div[{posicion}]/div/div/div[1]/a/h3/text()");
             url = result.html.xpath(f"//*[@id='rso']/div[{posicion}]/div/div/div[1]/a/@href");
 
-            result_daypo = session.get(url[0]);
-            description = result_daypo.html.xpath(f"//*[@class='w tal']/tr/td")[0].text.lower();
+            if len(url) > 0:
+                result_daypo = session.get(url[0]);
+                description = TextBlob(result_daypo.html.xpath(f"//*[@class='w tal']/tr/td")[0].text);
 
-            documents_daypo.append({
-                "title": titulo[0],
-                "url": url[0],
-                "description": description.replace(text, f"<span class='search'>{text}</span>")
-            });
+                positions = [];
+                for indice, valor in enumerate(description.sentences):
+                    position = valor.find(text);
+                    if position != -1:
+                        positions.append(indice);
+
+                results = [];
+                if len(positions) > 0:
+                    for position in positions:
+                        data = "".join([sentence.string for sentence in description.sentences[position - 2:position + 3]]);
+                        data = re.sub(text, f"<span class='search'>{text}</span>", data, flags=re.IGNORECASE);
+                        results.append(data);
+
+                documents_daypo.append({
+                    "title": titulo[0],
+                    "url": url[0],
+                    "description": results
+                });
 
         return documents_daypo;
 
     def load_data(self):
-        antes = time.time();
+        before = time.time();
 
         if os.path.exists(self.path):
-            documents = [os.path.join(dp, f) for dp, dn, filenames in os.walk(self.path) for f in filenames if os.path.splitext(f)[1] == '.pdf' or os.path.splitext(f)[1] == ".docx"];
+            documents = [os.path.join(dp, f) for dp, _, filenames in os.walk(self.path) for f in filenames if os.path.splitext(f)[1] in [".pdf", ".docx", ".pptx"]];
 
+            extensions = [];
             for document in documents:
+                extensions.append(os.path.splitext(os.path.basename(document))[1]);
                 self.documents.append(Document(document));
 
-        print(time.time() - antes);
+            print(f"Tiempo de lectura de {len(documents)} documentos: {round(time.time() - before, 2)} segundos");
+            print(f"Documentos: {list(set(extensions))}");
     
     def search(self, text):
         results = {};
