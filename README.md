@@ -4,7 +4,8 @@ Es una aplicación creada para el estudio. Esta aplicación es capaz de buscar e
 
 ## Caracteristicas
 
-* Busca contenido en PDF, DOCX y PPTX
+* Busca contenido en TXT, PDF, DOCX y PPTX
+* Puede procesar ficheros de un minimo de 100 MB.
 * Es capaz de buscar considerando acentos, mayusculas y minusculas.
 * Se puede filtrar la búsqueda de wikipedia, daypo y apuntes. Eligiendo unicamente donde quieres buscar.
 * Ahora puedes adjuntar los ficheros lanzandolos con drag and drop sobre la configuración.

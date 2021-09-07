@@ -27,9 +27,7 @@ wikipedia.set_lang("es");
 
 class Core:
     def __init__(self):
-        self.charlimit = 1000;
-        self.maxchars = 450;
-        self.surround = 200;
+        self.surround = 400;
 
         self.check = {"wikipedia": True, "daypo": True, "documents": True};
 
@@ -121,8 +119,6 @@ class Core:
             query = QueryParser("content", self.index_small.schema).parse(f'"{text}"');
             results = searcher.search(query, limit=None);
 
-            results.fragmenter.charlimit = self.charlimit;
-            results.fragmenter.maxchars = self.maxchars;
             results.fragmenter.surround = self.surround;
 
             for result in results:
@@ -137,8 +133,6 @@ class Core:
                 query = QueryParser("content", self.index_big.schema).parse(f'"{text}"');
                 results = searcher.search(query, limit=None);
 
-                results.fragmenter.charlimit = self.charlimit;
-                results.fragmenter.maxchars = self.maxchars;
                 results.fragmenter.surround = self.surround;
 
                 for result in results:

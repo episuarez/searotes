@@ -9,8 +9,8 @@ from core import Core
 app = Flask(__name__);
 core = Core();
 
-app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024;
-app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx', '.pptx'];
+app.config['MAX_CONTENT_LENGTH'] = 1000 * 1024 * 1024;
+app.config['UPLOAD_EXTENSIONS'] = [".pdf", ".docx", ".pptx", ".txt"];
 app.config['UPLOAD_PATH'] = 'uploads';
 
 if not os.path.exists(app.config['UPLOAD_PATH']):
@@ -59,4 +59,4 @@ def too_large():
 
 if __name__ == "__main__":
     webbrowser.open_new("http://127.0.0.1:5000");
-    app.run();
+    app.run(host="0.0.0.0", threaded=True);

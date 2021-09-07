@@ -4,7 +4,7 @@ import re
 from .docx import Docx
 from .pdf import Pdf
 from .pptx import Pptx
-
+from .txt import Txt
 
 class Document:
     def __init__(self, fullpath):
@@ -17,6 +17,8 @@ class Document:
             self.document = Pptx(self.fullpath);
         elif self.extension == ".pdf":
             self.document = Pdf(self.fullpath);
+        elif self.extension == ".txt":
+            self.document = Txt(self.fullpath);
 
         self.text = self.document.get_text();
 

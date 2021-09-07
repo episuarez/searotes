@@ -1,7 +1,6 @@
 import zipfile
 from xml.etree.ElementTree import XML
 
-
 class Pptx:
     def __init__(self, fullpath):
         self.fullpath = fullpath;
