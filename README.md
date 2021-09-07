@@ -28,4 +28,4 @@ Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo cami
 
 ## Captura de pantalla
 
-<img src="https://github.com/OwariStudios/Searotes/blob/027b6851995372798db935f0e87d9b5431b2d74c/screenshot.png?raw=true" alt="Searotes"/>
+<img src="https://github.com/episuarez/searotes/blob/5880ef3735c72f60ebb8ef9aa052f5219d4a1952/screenshot.png" alt="Searotes"/>
