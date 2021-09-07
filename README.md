@@ -1,8 +1,13 @@
 # Searotes
 
-Es una aplicación creada para el estudio. Esta aplicación es capaz de buscar en la wikipedia, apuntes y daypo, para ayudarte a resolver tus dudas mientras estudias. Es una herramienta de apoyo.
+Es una aplicación creada para el estudio. Esta aplicación es capaz de buscar en la wikipedia, daypo y tus apuntes, para ayudarte a resolver tus dudas mientras estudias. Es una herramienta de apoyo.
 
-Actualmente solo lee ficheros PDF y DOCX, y aunque no es una aplicación robusta, seguramente te sirva.
+## Caracteristicas
+
+* Busca contenido en PDF, DOCX y PPTX
+* Es capaz de buscar considerando acentos, mayusculas y minusculas.
+* Se puede filtrar la búsqueda de wikipedia, daypo y apuntes. Eligiendo unicamente donde quieres buscar.
+* Ahora puedes adjuntar los ficheros lanzandolos con drag and drop sobre la configuración.
 
 ## Errores y sugerencias
 
@@ -12,7 +17,7 @@ Para cualquier sugerencia puedes hacerlo en <https://github.com/OwariStudios/Sea
 
 ## Pull requests
 
-Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo camino que va la aplicación. Si quieres iniciar un debate para mejorar la misma saliendo del camino, te invito a que abras un ticket en https://github.com/OwariStudios/Searotes/discussions
+Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo camino que va la aplicación. Si quieres iniciar un debate para mejorar la misma saliendo del camino, te invito a que abras un ticket en <https://github.com/OwariStudios/Searotes/discussions>
 
 ## Instalación
 

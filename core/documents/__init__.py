@@ -1,10 +1,9 @@
 import os
 import re
-from textblob import TextBlob
 
 from .docx import Docx
-from .pptx import Pptx
 from .pdf import Pdf
+from .pptx import Pptx
 
 
 class Document:
@@ -19,7 +18,7 @@ class Document:
         elif self.extension == ".pdf":
             self.document = Pdf(self.fullpath);
 
-        self.text = TextBlob(self.document.get_text());
+        self.text = self.document.get_text();
 
     def search(self, search_text):
         positions = [];

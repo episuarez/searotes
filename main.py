@@ -1,39 +1,61 @@
-import time
+import os
 import webbrowser
 
-from flask import Flask, escape, redirect, render_template, request, url_for
+from flask import Flask, render_template, request
+from werkzeug.utils import secure_filename
 
-from sources import Sources
+from core import Core
 
 app = Flask(__name__);
+core = Core();
 
-path_documents = "";
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024;
+app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx', '.pptx'];
+app.config['UPLOAD_PATH'] = 'uploads';
 
-sources = Sources(path_documents);
+if not os.path.exists(app.config['UPLOAD_PATH']):
+    os.mkdir(app.config['UPLOAD_PATH']);
 
 @app.route("/")
 def index():
     results = [];
-    seconds = None;
 
     if request.args.get("search") != None and request.args.get("search") != "" and len(request.args.get("search")) > 2:
-        search = request.args.get("search");
-        before = time.time();
-        results = sources.search(search);
-        seconds = f"Tiempo de busqueda: {round(time.time() - before, 2)} segundos";
+        text = request.args.get("search");
+        results = core.search(text);
+
+        return render_template("index.html", text=text, check=core.check, documents_search=results[0], index_time=results[1], search_time=results[2]);
     else:
-        search = "";
+        results = "";
+        return render_template("index.html", check=core.check);
 
-    return render_template("index.html", seconds=seconds, search=search, results=results, numero_documentos=len(sources.documents), path_documents=path_documents);
+@app.route('/', methods=['POST'])
+def upload_files():
+    uploaded_file = request.files['file'];
+    filename = secure_filename(uploaded_file.filename);
 
-@app.route("/change_path/<path:path>")
-def change_path(path):
-    global path_documents, sources;
+    if filename != '':
+        file_ext = os.path.splitext(filename)[1]
 
-    path_documents = escape(path);
-    sources = Sources(path_documents);
-    
-    return redirect(url_for('index'));
+        if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+            return ("Documento no valido", 400)
+
+        path = os.path.join(app.config['UPLOAD_PATH'], filename);
+        uploaded_file.save(path);
+
+    core.index_documents(filename, path);
+    os.remove(path);
+
+    return '', 204
+
+@app.route("/checks", methods=["POST"])
+def checks():
+    core.check = request.json;
+    return "", 200
+
+@app.errorhandler(413)
+def too_large():
+    return ("Fichero demasiado grande", 413);
 
 if __name__ == "__main__":
     webbrowser.open_new("http://127.0.0.1:5000");

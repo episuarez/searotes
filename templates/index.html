@@ -5,12 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Scope+One&display=swap" rel="stylesheet">
 
+    <link href="/static/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/dropzone/min/dropzone.min.css" rel="stylesheet">
     <link href="/static/style.css" rel="stylesheet">
 
     <title>Searotes</title>
@@ -23,72 +22,37 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#" data-bs-toggle="modal" data-bs-target="#configuration">Searotes</a>
-                        <form class="d-flex  flex-fill">
-                            <input class="form-control me-2" type="search" name="search" value="{{search}}" placeholder="" aria-label="Search">
-                            <button class="btn btn-outline-light" type="submit">Buscar</button>
-                        </form>
+                    <form class="d-flex  flex-fill">
+                        <input class="form-control me-2" type="search" name="search" value="{{text}}" placeholder="" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Buscar</button>
+                    </form>
                 </div>
             </nav>
 
             <div class="col">
-                    {% if results %}
+                {% if documents_search %}
+                    <h2 class="mt-2">Resultados:</h2>
 
-                        <i>{{seconds}}</i>
-
-                        {% if results.wikipedia %}
-                            <h2 class="mt-3">Wikipedia</h2>
-
-                            <div class="row">
-                                <h3><a class="links" href="{{results.wikipedia.url}}" target="_blank">{{search}}</a></h5>
-                                <p>{{results.wikipedia.data|safe}}...</p>
-                            </div>
-                         
-                        {% else %}
-                            <h2 class="mt-3">Wikipedia</h2>
-                            No hay resultados en la wikipedia.
-                        {% endif %}
-
-                        {% if results.documents %}
-                            <h2 class="mt-3">Documentos</h2>
-
-                            {% for document in results.documents %}
-                                <div class="row">
-                                    <h3 class="links">{{document.file}} - Cantidad: {{document.cantidad}}</h3>
-                                    <p>{{document.data|safe}}</p>
-                                </div>
-                            {% endfor %}
-
-                        {% else %}
-                            <h2 class="mt-3">Documentos</h2>
-                            No hay resultados en los {{numero_documentos}} documentos.
-                        {% endif %}
-
-                        {% if results.daypo %}
-                            <h2 class="mt-3">Daypo</h2>
-
-                            {% for document in results.daypo %}
-                                <div class="row">
-                                    <h3><a class="links" href="{{document.url}}" target="_blank">{{document.title}}</a></h3>
-                                    <p>{{document.description|safe}}</p>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <h2 class="mt-3">Daypo</h2>
-                            No hay resultados en Daypo.
-                        {% endif %}
-
-                    {% else %}
-                        <div class="mt-2 mb-2">
-                            Aún no hay resultados.
+                    {% for document in documents_search %}
+                        <div class="row">
+                            <h3>{{document.title}} - {{document.path}}</h3>
+                            <p>{{document.content|safe}}</p>
                         </div>
-                    {% endif %}
+                    {% endfor %}
+
+                {% else %}
+                    <div>
+                        <h2 class="mt-2">Aún no hay resultados.</h2>
+                    </div>
+                {% endif %}
             </div>
         </div>
 
         <div class="row">
-            <div class="col mt-2">
+            <div class="col">
                 <hr>
-                <a href="https://github.com/OwariStudios/Searotes" class="links" target="_blank">Código fuente</a> - Creado por <a href="https://twitter.com/episuarez" class="links" target="_blank">@episuarez</a> - Si te gusta puedes <a href="https://www.patreon.com/episuarez" class="links" target="_blank">apoyar mi trabajo</a>.
+                <i>Tiempo de indexado: {{index_time}}, Tiempo de búsqueda {{search_time}}</i><br>
+                <a href="https://github.com/OwariStudios/Searotes" class="links" target="_blank" rel="noreferrer noopener">Código fuente</a> - Creado por <a href="https://twitter.com/episuarez" class="links" target="_blank" rel="noreferrer noopener">@episuarez</a> - Si te gusta puedes <a href="https://www.buymeacoffee.com/episuarez" class="links" target="_blank" rel="noreferrer noopener">apoyar mi trabajo</a>.
             </div>
         </div>
     </div>
@@ -101,29 +65,76 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <p>Cantidad de documentos cargados: {{numero_documentos}}</p>
+                    <h2>Importa tus documentos</h2>
+                    <form action="{{url_for('upload_files')}}" class="dropzone" id="uploader" enctype="multipart/form-data">
+                        <div class="fallback">
+                          <input name="file" type="file" multiple />
+                        </div>
+                    </form>
+
+                    <h2 class="mt-2">¿Dónde buscar?</h2>
+
+                    <div class="form-check">
+                        <input class="form-check-input check" type="checkbox" value="" id="check_wikipedia" {% if check.wikipedia %}checked{% endif %}>
+                        <label class="form-check-label" for="check_wikipedia">
+                            Wikipedia
+                        </label>
                     </div>
-                    <div class="mb-3">
-                        <label for="pathLabel" class="form-label">Path de apuntes:</label>
-                        <input type="text" class="form-control" id="pathLabel" value="{{path_documents}}">
+
+                    <div class="form-check">
+                        <input class="form-check-input check" type="checkbox" value="" id="check_daypo" {% if check.daypo %}checked{% endif %}>
+                        <label class="form-check-label" for="check_daypo">
+                            Daypo
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input check" type="checkbox" value="" id="check_documents" {% if check.documents %}checked{% endif %}>
+                        <label class="form-check-label" for="check_documents">
+                            Documentos
+                        </label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="change_path()">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous"></script>
-
+    <script async src="/static/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/static/dropzone/min/dropzone.min.js"></script>
     <script>
-        function change_path() {
-            window.location.href = "/change_path/" + document.getElementById("pathLabel").value;
-        }        
+        Dropzone.autoDiscover = false;
+
+        window.onload = function () {
+            var dropzoneOptions = {
+                autoProcessQueue: true,
+                parallelUploads: 1,
+                addRemoveLinks:true
+            };
+            var uploader = document.querySelector('#uploader');
+            var newDropzone = new Dropzone(uploader, dropzoneOptions);
+        };
+
+        document.querySelectorAll(".check").forEach(function(element) {
+            element.addEventListener('change', (event) => {
+                var data = {
+                    "wikipedia": document.getElementById("check_wikipedia").checked,
+                    "daypo": document.getElementById("check_daypo").checked,
+                    "documents": document.getElementById("check_documents").checked,
+                };
+
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/checks");
+
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                xhr.onreadystatechange = function () {};
+                xhr.send(JSON.stringify(data));
+            });
+        });
     </script>
 </body>
 
