@@ -12,13 +12,13 @@ Es una aplicación creada para el estudio. Esta aplicación es capaz de buscar e
 
 ## Errores y sugerencias
 
-Cualquier error que detectes puedes informar en <https://github.com/OwariStudios/Searotes/issues>.
+Cualquier error que detectes puedes informar en <https://github.com/episuarez/searotes/issues>.
 
-Para cualquier sugerencia puedes hacerlo en <https://github.com/OwariStudios/Searotes/discussions>.
+Para cualquier sugerencia puedes hacerlo en <https://github.com/episuarez/searotes/discussions>.
 
 ## Pull requests
 
-Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo camino que va la aplicación. Si quieres iniciar un debate para mejorar la misma saliendo del camino, te invito a que abras un ticket en <https://github.com/OwariStudios/Searotes/discussions>
+Por ahora se dará prioridad a aquellas peticiones que mejoren por el mismo camino que va la aplicación. Si quieres iniciar un debate para mejorar la misma saliendo del camino, te invito a que abras un ticket en <https://github.com/episuarez/searotes/discussions>
 
 ## Instalación
 
