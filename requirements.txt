@@ -16,7 +16,7 @@ lxml==4.9.1
 MarkupSafe==2.0.1
 parse==1.19.0
 pyee==8.2.2
-PyPDF2==1.27.5
+PyPDF2==1.27.9
 pyppeteer==0.2.6
 pyquery==1.4.3
 requests==2.26.0
