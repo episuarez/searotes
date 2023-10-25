@@ -28,7 +28,7 @@ typing-extensions==3.10.0.2
 urllib3==1.26.17
 w3lib==1.22.0
 websockets==9.1
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 Whoosh==2.7.4
 wikipedia==1.4.0
 zipp==3.5.0
