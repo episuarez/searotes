@@ -31,4 +31,4 @@ websockets==9.1
 Werkzeug==3.0.1
 Whoosh==2.7.4
 wikipedia==1.4.0
-zipp==3.5.0
+zipp==3.19.1
